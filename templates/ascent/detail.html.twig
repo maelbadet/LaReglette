@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mon ascension · La Réglette{% endblock %}
+{% block body %}
+    <main class="site-container climbing-page">
+        <nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="{{ path('app_ascent_personnal') }}">Mes ascensions</a><span>/</span><span>Ma réussite</span></nav>
+        {% for message in app.flashes('success') %}<div class="flash-success" role="status">{{ message }}</div>{% endfor %}
+        <div class="page-heading"><div><p class="eyebrow">Votre carnet de grimpe</p><h1>{{ ascent.boulder ? ascent.boulder.name : 'Bloc indisponible' }}<span>.</span></h1><p class="page-description">Une réussite enregistrée le {{ ascent.completedAt|date('d/m/Y à H:i') }}.</p></div><span class="status-badge"><span aria-hidden="true">✓</span> Bloc réussi</span></div>
+        <section class="detail-panel panel-content ascent-details" aria-label="Détails de votre ascension">
+            <h2>Votre ascension</h2>
+            <dl class="information-list">
+                <div><dt>Date de l'ascension</dt><dd>{{ ascent.completedAt|date('d/m/Y à H:i') }}</dd></div>
+                {% if ascent.boulder %}
+                    <div><dt>Zone</dt><dd>{{ ascent.boulder.sector.name }}</dd></div>
+                    <div><dt>Difficulté</dt><dd>Cotation {{ ascent.boulder.gradeLabel }}</dd></div>
+                    <div><dt>Couleur</dt><dd>{{ ascent.boulder.color }}</dd></div>
+                {% endif %}
+                <div><dt>Votre note</dt><dd><span class="rating-pill"><span aria-hidden="true">★</span> {{ ascent.rating }}/5</span></dd></div>
+            </dl>
+            <div class="comment-panel"><h2>Votre ressenti</h2><p class="ascent-comment">{{ ascent.comment ?: 'Aucun commentaire.' }}</p></div>
+        </section>
+        <div class="detail-footer">
+            {% if ascent.boulder %}<a class="button-link button-secondary" href="{{ path('app_boulder_show', {id: ascent.boulder.id}) }}">Revoir le bloc <span aria-hidden="true">↗</span></a>{% endif %}
+            <form method="post" action="{{ path('app_ascent_delete', {id: ascent.id}) }}"><input type="hidden" name="_token" value="{{ csrf_token('ascent_delete_' ~ ascent.id) }}"><button class="text-danger" type="submit">Supprimer cette ascension</button></form>
+        </div>
+    </main>
+{% endblock %}

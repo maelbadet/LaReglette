@@ -1,0 +1,15 @@
+LA RÉGLETTE — Les blocs en place sans réussite depuis au moins deux semaines
+Rapport du {{ generatedAt }} (heure de Paris)
+
+Blocs en place, ouverts depuis au moins deux semaines et sans réussite depuis le {{ since }}.
+Cette sélection inclut les blocs jamais réussis.
+
+{{ boulders|length }} bloc(s) à étudier :
+{% for boulder in boulders %}
+- #{{ boulder.id }} {{ boulder.name }} — {{ boulder.sector }} — {{ boulder.color }} — Cotation {{ boulder.grade }} — Ouvert le {{ boulder.openedAt }}
+{% else %}
+Aucun bloc ne correspond aux critères cette semaine.
+{% endfor %}
+
+Aucun bloc n’a été démonté. L’équipe reste libre de choisir les lignes à conserver.
+Chaque prise. Un nouveau départ.

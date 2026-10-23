@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}Gérer un bloc · La Réglette{% endblock %}
+{% block body %}
+<main class="site-container climbing-page">
+    <nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="{{ path('app_sector') }}">Secteurs</a><span>/</span><a href="{{ path('app_sector_show', {id: boulder.sector.id}) }}">{{ boulder.sector.name }}</a><span>/</span><span>{{ boulder.id ? 'Modification' : 'Nouveau bloc' }}</span></nav>
+    <div class="page-heading"><div><p class="eyebrow">L’espace des ouvreurs</p><h1>{{ boulder.id ? 'Modifier le bloc' : 'Créer un bloc' }}<span>.</span></h1><p class="page-description">Dessinez le prochain défi du secteur {{ boulder.sector.name }}.</p></div></div>
+    <section class="editor-panel">
+        <div class="editor-intro"><span class="step-label">01 / LA LIGNE</span><h2>Chaque détail compte.</h2><p>Un nom, une couleur et un niveau : les repères pour trouver sa prochaine ascension.</p><span class="context-badge">{{ boulder.sector.name }}</span></div>
+        {{ form_start(form, {attr: {class: 'climbing-form'}}) }}
+            {{ form_errors(form) }}
+            {{ form_row(form.name, {row_attr: {class: 'form-field'}, attr: {placeholder: 'Le nom de votre ligne'}}) }}
+            <div class="form-columns">{{ form_row(form.color, {row_attr: {class: 'form-field'}, attr: {placeholder: 'Ex. rouge'}}) }}{{ form_row(form.grade, {row_attr: {class: 'form-field'}}) }}</div>
+            {{ form_row(form.openedAt, {row_attr: {class: 'form-field'}}) }}
+            <div class="form-actions"><a class="subtle-link" href="{{ path('app_sector_show', {id: boulder.sector.id}) }}">Annuler</a><button type="submit">Enregistrer le bloc</button></div>
+        {{ form_end(form) }}
+    </section>
+</main>
+{% endblock %}

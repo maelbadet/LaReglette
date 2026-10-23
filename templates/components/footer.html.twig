@@ -1,0 +1,11 @@
+﻿<footer class="site-footer">
+    <div class="site-container footer-content">
+        <div><a class="brand" href="{{ path('app_home') }}">LA RÉGLETTE<span>.</span></a><p>L'envie de grimper. Le plaisir de se dépasser.</p></div>
+        <nav aria-label="Navigation de pied de page">
+            <a href="{{ path('app_home') }}">Accueil</a>
+            <a href="{{ path('app_sources') }}">Sources et crédits</a>
+            {% if not app.user %}<a href="{{ path('app_register') }}">Nous rejoindre</a>{% endif %}
+        </nav>
+        <p class="footer-copyright">© {{ 'now'|date('Y') }} La Réglette</p>
+    </div>
+</footer>

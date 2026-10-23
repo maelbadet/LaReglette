@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}Nouvelle ascension · La Réglette{% endblock %}
+{% block body %}
+    <main class="site-container climbing-page">
+        <nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="{{ path('app_ascent_personnal') }}">Mes ascensions</a><span>/</span><span>Nouvelle réussite</span></nav>
+        <div class="page-heading"><div><p class="eyebrow">Votre carnet de grimpe</p><h1>Une ligne de plus<span>.</span></h1><p class="page-description">Enregistrez votre ascension et gardez une trace de cette réussite.</p></div></div>
+        <section class="editor-panel">
+            <div class="editor-intro"><span class="step-label">01 / VOTRE RÉUSSITE</span><h2>Le plaisir d’aller au bout.</h2><p>Choisissez votre bloc, indiquez la date et partagez vos impressions. Cette ascension sera ajoutée à votre compte.</p><span class="context-badge">Votre note : de 1 à 5</span></div>
+            {{ form_start(ascentForm, {attr: {class: 'climbing-form'}}) }}
+            {{ form_errors(ascentForm) }}
+            {{ form_row(ascentForm.boulder) }}
+            <div class="form-columns">{{ form_row(ascentForm.completedAt) }}{{ form_row(ascentForm.rating) }}</div>
+            {{ form_row(ascentForm.comment, {attr: {placeholder: 'Une méthode, une sensation, le mouvement qui a tout changé…'}}) }}
+            <div class="form-actions"><a class="subtle-link" href="{{ path('app_ascent_personnal') }}">Annuler</a><button type="submit">Enregistrer mon ascension</button></div>
+            {{ form_end(ascentForm) }}
+        </section>
+    </main>
+{% endblock %}

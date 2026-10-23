@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+.env
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -18,3 +19,26 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+# Generated Symfony configuration reference
+/config/reference.php
+
+# Local project documents
+/PDF/
+
+# Logs and local test/tool caches
+*.log
+/.phpunit.result.cache
+/.php-cs-fixer.cache
+/.phpstan.cache/
+/node_modules/
+
+# Editor and operating system files
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini

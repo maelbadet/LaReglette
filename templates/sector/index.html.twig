@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block title %}Secteurs · La Réglette{% endblock %}
+{% block body %}
+<main class="site-container climbing-page">
+    <div class="page-heading">
+        <div><p class="eyebrow">Explorez la salle</p><h1>À chaque secteur,<br>son prochain défi<span>.</span></h1><p class="page-description">Choisissez votre terrain de jeu et trouvez votre prochaine ligne.</p></div>
+        {% if is_granted('ROLE_ADMIN') %}<a class="button-link" href="{{ path('app_sector_create') }}"><span aria-hidden="true">＋</span> Créer un secteur</a>{% endif %}
+    </div>
+    {% for message in app.flashes('error') %}<div class="alert" role="alert">{{ message }}</div>{% endfor %}
+    <div class="collection-heading"><h2>Les secteurs <span class="count-pill">{{ sectors|length }}</span></h2><a class="subtle-link" href="{{ path('app_boulder') }}">Tous les blocs en place <span aria-hidden="true">↗</span></a></div>
+    <div class="climbing-grid">
+    {% for sector in sectors %}
+        {% set available = sector.boulders|filter(b => b.available)|length %}
+        <article class="climbing-card sector-card">
+            <a class="sector-visual" href="{{ path('app_sector_show', {id: sector.id}) }}" aria-label="Explorer {{ sector.name }}">
+                <span class="sector-number" aria-hidden="true">{{ '%02d'|format(loop.index) }}</span>
+                <span class="sector-contour" aria-hidden="true"></span><span class="sector-hold" aria-hidden="true"></span>
+                <span class="visual-caption">LA RÉGLETTE / SECTEUR</span><span class="visual-arrow" aria-hidden="true">↗</span>
+            </a>
+            <div class="climbing-card-body">
+                <div class="card-meta"><span class="status-dot"></span>{{ available }} bloc{{ available > 1 ? 's' : '' }} en place</div>
+                <h2><a href="{{ path('app_sector_show', {id: sector.id}) }}">{{ sector.name }}</a></h2>
+                <a class="card-link" href="{{ path('app_sector_show', {id: sector.id}) }}">Explorer le secteur <span aria-hidden="true">→</span></a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="card-admin">
+                        <a class="subtle-link" href="{{ path('app_sector_edit', {id: sector.id}) }}">Modifier</a>
+                        <form method="post" action="{{ path('app_sector_delete', {id: sector.id}) }}"><input type="hidden" name="_token" value="{{ csrf_token('sector_delete_' ~ sector.id) }}"><button class="text-danger" type="submit">Supprimer le secteur vide</button></form>
+                    </div>
+                {% endif %}
+            </div>
+        </article>
+    {% else %}
+        <div class="empty-state"><span class="empty-symbol" aria-hidden="true">↗</span><h2>La salle prend forme.</h2><p>Les secteurs apparaîtront ici dès leur création.</p></div>
+    {% endfor %}
+    </div>
+</main>
+{% endblock %}

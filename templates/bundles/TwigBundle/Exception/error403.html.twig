@@ -1,0 +1,5 @@
+{% extends 'error/layout.html.twig' %}
+{% block title %}Accès refusé{% endblock %}
+{% block heading %}Cette voie est<br>réservée<span>.</span>{% endblock %}
+{% block description %}Votre compte ne dispose pas des droits nécessaires pour accéder à cette page. Vous pouvez revenir à l’accueil ou vous connecter avec un compte disposant des accès requis.{% endblock %}
+{% block extra_action %}<a class="error-secondary" href="{{ path('app_login') }}">Se connecter <span aria-hidden="true">→</span></a>{% endblock %}

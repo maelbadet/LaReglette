@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>La salle en direct · La Réglette</title>
+        <link rel="stylesheet" href="{{ asset('styles/screen.css') }}">
+        {{ importmap('app') }}
+    </head>
+    <body class="room-screen" data-controller="screen" data-screen-url-value="{{ path('app_api') }}">
+        <header class="screen-header">
+            <a class="screen-brand" href="{{ path('app_home') }}">LA RÉGLETTE<span>.</span></a>
+            <span class="screen-live"><span></span> LA SALLE EN DIRECT</span>
+            <div class="screen-clock"><time data-screen-target="clock"></time><span data-screen-target="date"></span></div>
+        </header>
+        <main class="screen-main">
+            <section class="screen-intro" aria-labelledby="screen-title">
+                <div><p class="screen-eyebrow">Un mouvement. Un déclic. Une réussite.</p><h1 id="screen-title">Votre prochain<br>défi est ici<span>.</span></h1><p>Repérez votre ligne. Trouvez votre méthode. À vous de jouer.</p></div>
+                <dl class="screen-totals">
+                    <div><dt>Blocs en place</dt><dd data-screen-target="total">—</dd></div>
+                    <div><dt>Réussites enregistrées</dt><dd data-screen-target="successes">—</dd></div>
+                    <div><dt>Secteurs à explorer</dt><dd data-screen-target="sectors">—</dd></div>
+                </dl>
+            </section>
+            <form class="screen-filters" data-action="submit->screen#filter" aria-label="Filtrer les blocs">
+                <span class="screen-filter-title">À chacun sa ligne</span>
+                <label>Secteur<select name="sector" data-screen-target="sector"><option value="">Tous les secteurs</option></select></label>
+                <label>Couleur<select name="color" data-screen-target="color"><option value="">Toutes les couleurs</option></select></label>
+                <label>Cotation min.<select name="gradeMin" data-screen-target="gradeMin" data-action="change->screen#validateRange"><option value="">Toutes</option>{% for label, value in grades %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select></label>
+                <label>Cotation max.<select name="gradeMax" data-screen-target="gradeMax" data-action="change->screen#validateRange"><option value="">Toutes</option>{% for label, value in grades %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select></label>
+                <button type="submit">Afficher <span aria-hidden="true">→</span></button>
+                <button class="screen-reset" type="button" data-action="screen#reset">Réinitialiser</button>
+            </form>
+            <div class="screen-section-heading"><h2>Les blocs du moment <span data-screen-target="count">—</span></h2><p data-screen-target="status" role="status">Connexion à la salle…</p></div>
+            <div class="screen-grid" data-screen-target="grid" aria-label="Blocs en place" aria-busy="true"></div>
+            <div class="screen-empty" data-screen-target="empty" hidden><span aria-hidden="true">↗</span><h2>Un autre défi vous attend.</h2><p>Aucun bloc ne correspond à ces filtres. Essayez une autre sélection.</p></div>
+            <noscript><p class="screen-notice">Activez JavaScript pour afficher les blocs de la salle.</p></noscript>
+            <div class="screen-pagination" data-screen-target="pagination" hidden><button type="button" data-action="screen#previous" aria-label="Page précédente">←</button><span data-screen-target="page"></span><button type="button" data-action="screen#next" aria-label="Page suivante">→</button><button class="screen-pause" type="button" data-action="screen#togglePause" aria-pressed="false" data-screen-target="pause">Mettre en pause</button></div>
+        </main>
+        <footer class="screen-footer"><span>CHAQUE PRISE. UN NOUVEAU DÉPART.</span><span>Les réussites se construisent ensemble<span class="screen-footer-dot">.</span></span><button type="button" data-action="screen#fullscreen" data-screen-target="fullscreen">Plein écran ↗</button></footer>
+        <template data-screen-target="card">
+            <article class="screen-block">
+                <div class="screen-block-top"><span class="screen-block-color"><i></i><span data-field="color"></span></span><span class="screen-block-sector" data-field="sector"></span></div>
+                <div class="screen-block-middle"><div><p class="screen-block-label">LE PROCHAIN MOUVEMENT</p><h3 data-field="name"></h3></div><div class="screen-block-grade"><span>COTATION</span><strong data-field="grade"></strong></div></div>
+                <div class="screen-block-bottom"><span class="screen-success-icon" aria-hidden="true">↗</span><strong data-field="successCount"></strong><span data-field="successLabel"></span><span class="screen-block-state">En place</span></div>
+            </article>
+        </template>
+    </body>
+</html>

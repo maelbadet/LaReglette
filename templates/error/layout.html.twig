@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{% block title %}Une erreur est survenue{% endblock %} · La Réglette</title>
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/error.css') }}">
+</head>
+<body class="error-page">
+    <header class="error-header">
+        <a class="brand" href="{{ path('app_home') }}">LA RÉGLETTE<span>.</span></a>
+        <a class="error-back" href="{{ path('app_home') }}">Retour à l’accueil <span aria-hidden="true">↗</span></a>
+    </header>
+    <main id="contenu" class="error-main" aria-labelledby="error-title">
+        <div class="error-art" aria-hidden="true">
+            <span class="error-contour"></span><span class="error-hold"></span>
+            <span class="error-code">{{ status_code|default(500) }}</span>
+            <span class="error-art-caption">ON RETROUVE LA BONNE VOIE.</span>
+        </div>
+        <div class="error-copy">
+            <p class="eyebrow">La Réglette · Erreur {{ status_code|default(500) }}</p>
+            <h1 id="error-title">{% block heading %}Une pause<br>imprévue<span>.</span>{% endblock %}</h1>
+            <p class="error-description">{% block description %}Nous ne pouvons pas afficher cette page pour le moment. Réessayez dans quelques instants ou revenez à l’accueil.{% endblock %}</p>
+            <div class="error-actions">
+                <a class="button-link" href="{{ path('app_home') }}">Revenir à l’accueil <span aria-hidden="true">↗</span></a>
+                {% block extra_action %}{% endblock %}
+            </div>
+            <p class="error-note">Un contretemps sur le chemin. La grimpe continue.</p>
+        </div>
+    </main>
+    <footer class="error-footer"><span>CHAQUE PRISE. UN NOUVEAU DÉPART.</span><span>La Réglette · L’esprit grimpe</span></footer>
+</body>
+</html>

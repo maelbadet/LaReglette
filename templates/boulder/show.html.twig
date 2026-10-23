@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% import 'components/climbing.html.twig' as climbing %}
+{% block title %}{{ boulder.name }} · La Réglette{% endblock %}
+{% block body %}
+<main class="site-container climbing-page" style="--hold-color: {{ climbing.color(boulder.color)|trim }}">
+    <nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="{{ path('app_sector') }}">Secteurs</a><span>/</span><a href="{{ path('app_sector_show', {id: boulder.sector.id}) }}">{{ boulder.sector.name }}</a><span>/</span><span>Le bloc</span></nav>
+    <div class="page-heading"><div><p class="eyebrow">{{ boulder.sector.name }}</p><h1>{{ boulder.name }}<span>.</span></h1><p class="page-description">Observez la ligne. Trouvez votre méthode. À vous de jouer.</p></div><span class="status-badge {{ boulder.available ? '' : 'status-muted' }}"><span class="status-dot"></span>{{ boulder.available ? 'En place' : 'Indisponible' }}</span></div>
+    <div class="detail-layout">
+        <section class="detail-panel">
+            <div class="boulder-identity"><span class="color-tag"><span class="color-dot"></span>{{ boulder.color }}</span><div class="detail-grade"><small>COTATION</small><strong>{{ boulder.gradeLabel }}</strong></div><span class="identity-hold" aria-hidden="true"></span></div>
+            <div class="panel-content"><h2>La ligne en détail</h2><dl class="information-list">
+                <div><dt>Secteur</dt><dd><a href="{{ path('app_sector_show', {id: boulder.sector.id}) }}">{{ boulder.sector.name }}</a></dd></div>
+                <div><dt>Ouverture</dt><dd>{{ boulder.openedAt ? boulder.openedAt|date('d/m/Y à H:i') : 'Non renseignée' }}</dd></div>
+                <div><dt>Ouvreur</dt><dd>{{ boulder.openedBy ? boulder.openedBy.firstName ~ ' ' ~ boulder.openedBy.lastName : 'Non renseigné' }}</dd></div>
+                {% if boulder.dismantledAt %}<div><dt>Démontage</dt><dd>{{ boulder.dismantledAt|date('d/m/Y à H:i') }}</dd></div>{% endif %}
+            </dl></div>
+        </section>
+        <aside class="detail-sidebar">
+            <section class="detail-panel panel-content"><p class="eyebrow">La communauté en mouvement</p><h2>Ce bloc en chiffres</h2><dl class="boulder-statistics stat-grid">
+                <div><dt>Ascensions</dt><dd>{{ statistics.ascents }}</dd></div><div><dt>Grimpeurs ayant réussi</dt><dd>{{ statistics.climbers }}</dd></div><div class="stat-wide"><dt>Note moyenne</dt><dd>{{ statistics.rating is not null ? statistics.rating|number_format(1, ',') ~ '/5' : 'Aucune note' }}</dd></div>
+            </dl></section>
+            {% if boulder.available and is_granted('ROLE_GRIMPEUR') %}<section class="success-panel"><span class="eyebrow">Un mouvement de plus</span><h2>Vous avez sorti ce bloc ?</h2><p>Gardez une trace de votre réussite dans votre carnet.</p><a class="button-link" href="{{ path('app_boulder_ascent_create', {id: boulder.id}) }}">Enregistrer une réussite <span aria-hidden="true">↗</span></a></section>{% endif %}
+            {% if boulder.available and not app.user %}
+                <section class="success-panel">
+                    <span class="eyebrow">Votre carnet de grimpe</span><h2>Envie d’enregistrer votre réussite ?</h2>
+                    <p>Connectez-vous ou créez un compte pour ajouter vos ascensions et suivre votre progression.</p>
+                    <a class="button-link" href="{{ path('app_login') }}">Se connecter <span aria-hidden="true">↗</span></a>
+                    <p><a href="{{ path('app_register') }}">Créer un compte</a></p>
+                </section>
+            {% endif %}
+            {% if canManage %}<div class="management-actions"><a class="button-link button-secondary" href="{{ path('app_boulder_edit', {id: boulder.id}) }}">Modifier le bloc</a>{% if boulder.available %}<form method="post" action="{{ path('app_boulder_dismantle', {id: boulder.id}) }}"><input type="hidden" name="_token" value="{{ csrf_token('dismantle_' ~ boulder.id) }}"><button class="button-danger" type="submit">Démonter le bloc</button></form>{% endif %}</div>{% endif %}
+        </aside>
+    </div>
+</main>
+{% endblock %}

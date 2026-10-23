@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% import 'components/climbing.html.twig' as climbing %}
+{% block title %}Blocs en place · La Réglette{% endblock %}
+{% block body %}
+<main class="site-container climbing-page">
+    <nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="{{ path('app_sector') }}">Secteurs</a><span aria-hidden="true">/</span><span>{{ sector ? sector.name : 'Tous les blocs' }}</span></nav>
+    <div class="page-heading">
+        <div><p class="eyebrow">Trouvez votre prochaine réussite</p><h1>{{ sector ? sector.name : 'Les blocs en place' }}<span>.</span></h1><p class="page-description">Une couleur, un niveau, une nouvelle occasion de se dépasser.</p></div>
+        {% if sector and is_granted('ROLE_OUVREUR') %}<a class="button-link" href="{{ path('app_boulder_create', {id: sector.id}) }}"><span aria-hidden="true">＋</span> Créer un bloc</a>{% endif %}
+    </div>
+    <section class="filter-panel" aria-label="Filtrer les blocs">
+        <div class="filter-heading"><h2>Votre prochain défi</h2><a class="subtle-link" href="{{ sector ? path('app_sector_show', {id: sector.id}) : path('app_boulder') }}">Réinitialiser</a></div>
+        {{ form_start(filterForm, {attr: {class: 'boulder-filters'}}) }}
+            {{ form_errors(filterForm) }}
+            {{ form_row(filterForm.sector, {row_attr: {class: 'form-field'}}) }}
+            {{ form_row(filterForm.color, {row_attr: {class: 'form-field'}, attr: {placeholder: 'Ex. rouge'}}) }}
+            {{ form_row(filterForm.gradeMin, {row_attr: {class: 'form-field'}}) }}
+            {{ form_row(filterForm.gradeMax, {row_attr: {class: 'form-field'}}) }}
+            <div class="filter-submit"><button type="submit">Filtrer les blocs <span aria-hidden="true">→</span></button></div>
+            {% if filterForm.unfinished is defined %}<div class="filter-checkbox">{{ form_widget(filterForm.unfinished) }}{{ form_label(filterForm.unfinished) }}{{ form_errors(filterForm.unfinished) }}</div>{% endif %}
+        {{ form_end(filterForm) }}
+    </section>
+    <div class="collection-heading"><h2>Les lignes à découvrir <span class="count-pill">{{ boulders|length }}</span></h2><span class="collection-note">Blocs en place uniquement</span></div>
+    <div class="climbing-grid">
+    {% for boulder in boulders %}
+        <article class="climbing-card boulder-item" style="--hold-color: {{ climbing.color(boulder.color)|trim }}">
+            <div class="boulder-card-top"><span class="color-tag"><span class="color-dot"></span>{{ boulder.color }}</span><span class="grade-badge"><small>COTATION</small>{{ boulder.gradeLabel }}</span></div>
+            <div class="climbing-card-body"><p class="card-meta">{{ boulder.sector.name }}</p><h2><a href="{{ path('app_boulder_show', {id: boulder.id}) }}">{{ boulder.name }}</a></h2><div class="card-bottom"><span class="card-date">Ouvert le {{ boulder.openedAt|date('d/m/Y') }}</span><a class="round-link" href="{{ path('app_boulder_show', {id: boulder.id}) }}" aria-label="Voir {{ boulder.name }}">↗</a></div></div>
+        </article>
+    {% else %}
+        <div class="empty-state"><span class="empty-symbol" aria-hidden="true">↗</span><h2>Un autre défi vous attend.</h2><p>Aucun bloc en place ne correspond à ces filtres. Essayez une autre couleur ou un autre niveau.</p><a class="button-link button-secondary" href="{{ sector ? path('app_sector_show', {id: sector.id}) : path('app_boulder') }}">Effacer les filtres</a></div>
+    {% endfor %}
+    </div>
+</main>
+{% endblock %}

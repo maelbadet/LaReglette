@@ -1,0 +1,29 @@
+﻿{% extends 'base.html.twig' %}
+{% block title %}Inscription · La Réglette{% endblock %}
+{% block body %}
+    <main class="auth-layout">
+        <aside class="auth-intro">
+            <a class="brand" href="{{ path('app_login') }}">LA RÉGLETTE<span>.</span></a>
+            <div><p class="eyebrow">L'aventure commence ici</p><h2>Une première<br>prise. Mille<br>possibilités<span>.</span></h2><p class="intro-copy">Rejoignez La Réglette et faites place à vos prochains défis.</p></div>
+            <p class="intro-footer">L'envie de grimper. Le plaisir de se dépasser.</p>
+        </aside>
+        <section class="auth-card" aria-labelledby="auth-title">
+            <p class="eyebrow">Rejoignez La Réglette</p>
+            <h1 id="auth-title">Créez votre compte.</h1>
+            <p class="auth-description">Votre prochaine aventure commence avec vous.</p>
+            {% for flash_error in app.flashes('verify_email_error') %}<div class="alert" role="alert">{{ flash_error }}</div>{% endfor %}
+            {{ form_start(registrationForm, {attr: {class: 'auth-form'}}) }}
+            {{ form_errors(registrationForm) }}
+            <div class="form-columns">
+                {{ form_row(registrationForm.firstName, {label: 'Prénom', row_attr: {class: 'form-field'}, attr: {autocomplete: 'given-name'}}) }}
+                {{ form_row(registrationForm.lastName, {label: 'Nom', row_attr: {class: 'form-field'}, attr: {autocomplete: 'family-name'}}) }}
+            </div>
+            {{ form_row(registrationForm.email, {label: 'Adresse e-mail', row_attr: {class: 'form-field'}, attr: {autocomplete: 'email', placeholder: 'vous@exemple.fr'}}) }}
+            {{ form_row(registrationForm.plainPassword, {label: 'Mot de passe', row_attr: {class: 'form-field'}, help: 'Au moins 6 caractères.'}) }}
+            {{ form_row(registrationForm.agreeTerms, {label: "J’accepte les conditions d’utilisation", row_attr: {class: 'form-checkbox'}}) }}
+            {{ form_row(registrationForm.submit, {label: 'Créer mon compte'}) }}
+            {{ form_end(registrationForm) }}
+            <p class="auth-switch">Déjà un compte ? <a href="{{ path('app_login') }}">Connectez-vous</a></p>
+        </section>
+    </main>
+{% endblock %}

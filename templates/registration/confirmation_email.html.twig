@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Confirmez votre adresse e-mail · La Réglette</title>
+    </head>
+    <body style="margin: 0; padding: 0; background-color: #0d0d10; color: #f7f5f5; font-family: Arial, Helvetica, sans-serif;">
+        <div style="display: none; max-height: 0; overflow: hidden; mso-hide: all;">Bienvenue à La Réglette ! Confirmez votre adresse e-mail pour valider votre compte.</div>
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #0d0d10;">
+            <tr>
+                <td align="center" style="padding: 32px 16px;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width: 560px; background-color: #17171c; border: 1px solid #39353e; border-radius: 12px;">
+                        <tr>
+                            <td style="padding: 32px 24px; border-bottom: 1px solid #39353e;">
+                                <p style="margin: 0; color: #f7f5f5; font-size: 22px; font-weight: 900; letter-spacing: -1px;">LA RÉGLETTE<span style="color: #e32636;">.</span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 36px 24px;">
+                                <p style="margin: 0 0 20px; color: #ff6975; font-size: 11px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">L'aventure commence ici</p>
+                                <h1 style="margin: 0 0 20px; color: #f7f5f5; font-size: 30px; line-height: 1.2;">Une dernière prise<br>avant de nous rejoindre<span style="color: #e32636;">.</span></h1>
+                                <p style="margin: 0 0 28px; color: #b7b3ba; font-size: 16px; line-height: 1.7;">Bienvenue à La Réglette ! Confirmez votre adresse e-mail pour valider votre compte et commencer votre aventure.</p>
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                                    <tr>
+                                        <td bgcolor="#e32636" style="border-radius: 8px; text-align: center;">
+                                            <a href="{{ signedUrl }}" style="display: inline-block; padding: 17px 24px; border: 1px solid #e32636; border-radius: 8px; color: #ffffff; font-size: 15px; font-weight: bold; text-decoration: none;">Confirmer mon adresse e-mail</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <p style="margin: 24px 0 0; color: #b7b3ba; font-size: 13px; line-height: 1.7;">Ce lien expire dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle', 'fr') }}.</p>
+                                <p style="margin: 28px 0 8px; color: #b7b3ba; font-size: 12px; line-height: 1.7;">Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :</p>
+                                <p style="margin: 0; font-size: 12px; line-height: 1.7; word-break: break-all; overflow-wrap: anywhere;"><a href="{{ signedUrl }}" style="color: #ff6975; text-decoration: underline;">{{ signedUrl }}</a></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 24px; border-top: 1px solid #39353e;">
+                                <p style="margin: 0 0 10px; color: #b7b3ba; font-size: 12px; line-height: 1.7;">Vous n'avez pas créé ce compte ? Vous pouvez ignorer cet e-mail.</p>
+                                <p style="margin: 0; color: #b7b3ba; font-size: 12px; line-height: 1.7;">L'envie de grimper. Le plaisir de se dépasser.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

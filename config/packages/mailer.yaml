@@ -1,3 +1,9 @@
 framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'
+
+when@dev:
+    framework:
+        mailer:
+            # Deliver directly to local Mailpit without a Messenger worker.
+            message_bus: false

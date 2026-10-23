@@ -1,0 +1,17 @@
+﻿{% extends 'base.html.twig' %}
+{% block title %}Accueil · La Réglette{% endblock %}
+{% block body %}
+    <main id="contenu">
+        {% for message in app.flashes('success') %}<div class="site-container flash-success" role="status">{{ message }}</div>{% endfor %}
+        {% include 'components/hero.html.twig' %}
+            <section class="site-container"><p><a class="button-link" href="{{ path('app_sector') }}">Explorer les secteurs et leurs blocs</a></p></section>
+        <section id="esprit" class="home-spirit site-container" aria-labelledby="spirit-title">
+            <div class="section-heading"><p class="eyebrow">Plus haut, ensemble</p><h2 id="spirit-title">La grimpe, à votre façon<span>.</span></h2><p>Pas besoin d'être au sommet pour aimer le chemin.</p></div>
+            <div class="spirit-grid">
+                <article class="spirit-card"><span class="card-number">01</span><h3>Oser commencer</h3><p>Une première prise, un premier mouvement. Chacun avance à son rythme, quel que soit son niveau.</p></article>
+                <article class="spirit-card"><span class="card-number">02</span><h3>Se dépasser</h3><p>Observer, essayer, recommencer. Chaque défi est une occasion de découvrir ce dont vous êtes capable.</p></article>
+                <article class="spirit-card"><span class="card-number">03</span><h3>Partager l'élan</h3><p>Un conseil, un encouragement, une réussite partagée. La passion de l'escalade nous rassemble.</p></article>
+            </div>
+        </section>
+    </main>
+{% endblock %}

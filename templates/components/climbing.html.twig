@@ -1,0 +1,19 @@
+{% macro color(color) %}
+    {% set colors = {
+    'vert': '#79c995', 
+    'verte': '#79c995', 
+    'bleu': '#75a9ee', 
+    'bleue': '#75a9ee', 
+    'jaune': '#e8ce6c', 
+    'orange': '#e9a064', 
+    'rouge': '#ef6b77', 
+    'violet': '#b299e7', 
+    'violette': '#b299e7', 
+    'noir': '#9a96a0', 
+    'noire': '#9a96a0', 
+    'blanc': '#f2eeee', 
+    'blanche': '#f2eeee', 
+    'rose': '#e99ac2'
+    } %}
+    {{ colors[color|lower] ?? '#b7b3ba' }}
+{% endmacro %}

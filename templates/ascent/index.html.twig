@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mes ascensions · La Réglette{% endblock %}
+{% block body %}
+    <main class="site-container climbing-page">
+        <div class="page-heading"><div><p class="eyebrow">Votre carnet de grimpe</p><h1>Chaque réussite compte<span>.</span></h1><p class="page-description">Mes ascensions : retrouvez vos lignes et les mouvements qui vous ont fait progresser.</p></div><a class="button-link" href="{{ path('app_ascent_create') }}"><span aria-hidden="true">＋</span> Nouvelle ascension</a></div>
+        <div class="collection-heading"><h2>Mes ascensions <span class="count-pill">{{ ascents|length }}</span></h2><span class="collection-note">Les plus récentes en premier</span></div>
+        <div class="climbing-grid">
+            {% for ascent in ascents %}
+                <article class="climbing-card ascent-card ascent-item"><div class="climbing-card-body">
+                        <div class="card-meta"><span>{{ ascent.completedAt|date('d/m/Y à H:i') }}</span><span class="rating-pill"><span aria-hidden="true">★</span> {{ ascent.rating }}/5</span></div>
+                        <h2>{{ ascent.boulder ? ascent.boulder.name : 'Bloc indisponible' }}</h2>
+                        {% if ascent.boulder %}<p class="ascent-location">{{ ascent.boulder.sector.name }} · Cotation {{ ascent.boulder.gradeLabel }}</p>{% endif %}
+                        <a class="card-link" href="{{ path('app_ascent_detail', {id: ascent.id}) }}">Voir les détails <span aria-hidden="true">↗</span></a>
+                    </div></article>
+            {% else %}
+                <div class="empty-state"><span class="empty-symbol" aria-hidden="true">↗</span><h2>La première d’une longue série.</h2><p>Vous n’avez pas encore enregistré d’ascension. Trouvez votre prochaine ligne et lancez-vous.</p><a class="button-link" href="{{ path('app_boulder') }}">Découvrir les blocs</a></div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}

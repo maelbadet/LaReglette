@@ -1,0 +1,55 @@
+﻿{% extends 'base.html.twig' %}
+
+{% block title %}Sources et crédits · La Réglette{% endblock %}
+
+{% block body %}
+    <main class="site-container home-spirit sources-page" aria-labelledby="sources-title">
+        <p class="eyebrow">Les ressources derrière le projet</p>
+        <h1 id="sources-title">Sources &amp; crédits<span>.</span></h1>
+        <p class="auth-description sources-intro">Cette page présente les documentations et l'assistance utilisées dans le développement de La Réglette.</p>
+
+        <section class="sources-section" aria-labelledby="documentation-title">
+            <div class="section-heading">
+                <p class="eyebrow">01 / Documentation officielle</p>
+                <h2 id="documentation-title">Symfony &amp; EasyAdmin<span>.</span></h2>
+                <p>La documentation officielle de Symfony et celle d'EasyAdmin, hébergée sur le site Symfony, ont servi de références pour les contrôleurs, l'administration et la gestion des accès.</p>
+            </div>
+            <div class="sources-grid">
+                <article class="spirit-card">
+                    <span class="card-number">SYMFONY</span>
+                    <h3>Contrôleurs et routes</h3>
+                    <p>Structure des contrôleurs, attributs de routage, rendu des templates Twig et redirections entre les pages.</p>
+                    <a href="https://symfony.com/doc/current/controller.html">Documentation des contrôleurs ↗</a>
+                </article>
+                <article class="spirit-card">
+                    <span class="card-number">EASYADMIN</span>
+                    <h3>Dashboard d'administration</h3>
+                    <p>Configuration du DashboardController, point d'entrée /admin, menu de navigation et accès aux pages de gestion.</p>
+                    <a href="https://symfony.com/bundles/EasyAdminBundle/current/dashboards.html">Documentation des dashboards ↗</a>
+                </article>
+                <article class="spirit-card">
+                    <span class="card-number">EASYADMIN</span>
+                    <h3>Contrôleurs CRUD</h3>
+                    <p>Contrôleurs de création, consultation, modification et suppression des utilisateurs, secteurs, blocs et ascensions.</p>
+                    <a href="https://symfony.com/bundles/EasyAdminBundle/current/crud.html">Documentation des contrôleurs CRUD ↗</a>
+                </article>
+                <article class="spirit-card">
+                    <span class="card-number">SYMFONY SECURITY</span>
+                    <h3>Rôles et protection des routes</h3>
+                    <p>Authentification, utilisateur connecté, rôles, hiérarchie des droits et restrictions d'accès aux routes avec Security et IsGranted.</p>
+                    <a href="https://symfony.com/doc/current/security.html">Documentation de la sécurité ↗</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="sources-section sources-ai spirit-card" aria-labelledby="ai-title">
+            <p class="eyebrow">02 / Assistance par intelligence artificielle</p>
+            <h2 id="ai-title">Une aide déclarée<span>.</span></h2>
+            <p>J'ai utilisé l'assistant OpenAI (Codex, dans cette conversation) pour m'aider à concevoir et à intégrer le style du site : charte rouge et noire, mise en page, composants Twig, formulaires et adaptation au mobile.</p>
+            <p>Le JavaScript ajouté avec cette aide concerne notamment les onglets du profil et la fenêtre de confirmation de suppression. Le rendu des pages et des formulaires repose sur Twig et Symfony.</p>
+            <p class="sources-note">Cette mention distingue les références documentaires de l'aide à la génération et à la modification du code ; l'assistance n'a pas été limitée au style.</p>
+        </section>
+
+        <p class="sources-back"><a href="{{ path('app_home') }}">← Retour à l'accueil</a></p>
+    </main>
+{% endblock %}

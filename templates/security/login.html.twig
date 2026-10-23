@@ -1,0 +1,28 @@
+﻿{% extends 'base.html.twig' %}
+{% block title %}Connexion · La Réglette{% endblock %}
+{% block body %}
+    <main class="auth-layout">
+        <aside class="auth-intro">
+            <a class="brand" href="{{ path('app_login') }}">LA RÉGLETTE<span>.</span></a>
+            <div><p class="eyebrow">À chaque prise, un nouveau défi</p><h2>Le prochain<br>sommet vous<br>attend<span>.</span></h2><p class="intro-copy">Retrouvez votre espace et prenez de la hauteur.</p></div>
+            <p class="intro-footer">L'envie de grimper. Le plaisir de se dépasser.</p>
+        </aside>
+        <section class="auth-card" aria-labelledby="auth-title">
+            <p class="eyebrow">Votre espace personnel</p>
+            <h1 id="auth-title">Heureux de vous revoir.</h1>
+            <p class="auth-description">Connectez-vous pour retrouver La Réglette.</p>
+            {% for message in app.flashes('success') %}
+                <div class="flash-success" role="status">{{ message }}</div>
+            {% endfor %}
+            <form method="post" class="auth-form">
+                {% if error %}<div class="alert" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>{% endif %}
+                {% if app.user %}<div class="alert">Vous êtes connecté en tant que {{ app.user.userIdentifier }}. <a href="{{ logout_path() }}">Se déconnecter</a></div>{% endif %}
+                <div class="form-field"><label for="username">Adresse e-mail</label><input type="email" value="{{ last_username }}" name="_username" id="username" autocomplete="email" placeholder="vous@exemple.fr" required autofocus></div>
+                <div class="form-field"><label for="password">Mot de passe</label><input type="password" name="_password" id="password" autocomplete="current-password" required></div>
+                <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+                <button type="submit">Se connecter <span aria-hidden="true">↗</span></button>
+            </form>
+            <p class="auth-switch">Pas encore de compte ? <a href="{{ path('app_register') }}">Inscrivez-vous</a></p>
+        </section>
+    </main>
+{% endblock %}

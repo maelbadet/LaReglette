@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block title %}Gestion des rôles · La Réglette{% endblock %}
+{% block body %}
+    <main class="site-container climbing-page">
+        <div class="page-heading">
+            <div><p class="eyebrow">L’espace administrateur</p><h1>À chacun son rôle<span>.</span></h1><p class="page-description">Gérez les accès des membres de La Réglette.</p></div>
+        <div class="management-actions">
+            <a class="button-link button-secondary" href="{{ path('app_sector') }}">Gérer les secteurs <span aria-hidden="true">↗</span></a>
+            <a class="button-link button-secondary" href="{{ path('admin') }}">Aller sur la page EasyAdmin <span aria-hidden="true">↗</span></a>
+        </div>
+        </div>
+        {% for message in app.flashes('success') %}<div class="flash-success" role="status">{{ message }}</div>{% endfor %}
+        <section class="editor-panel" aria-labelledby="role-title">
+            <div class="editor-intro">
+                <span class="step-label">01 / LES ACCÈS</span><h2 id="role-title">Modifier un rôle.</h2>
+                <p><strong>Grimpeur</strong> : consulter les blocs et gérer ses ascensions.</p>
+                <p><strong>Ouvreur</strong> : créer, modifier et démonter les blocs.</p>
+                <p><strong>Administrateur</strong> : accéder à toutes les actions, gérer les secteurs et les rôles.</p>
+            </div>
+            {{ form_start(roleForm, {attr: {class: 'climbing-form'}}) }}
+            {{ form_errors(roleForm) }}
+            {{ form_row(roleForm.user) }}
+            {{ form_row(roleForm.role) }}
+            <p class="role-form-note">Le nouveau rôle remplace les rôles actuels du compte. Les accès sont actualisés à sa prochaine requête ; une reconnexion peut être nécessaire.</p>
+            <div class="form-actions"><button type="submit">Enregistrer le rôle</button></div>
+            {{ form_end(roleForm) }}
+        </section>
+        <div class="collection-heading"><h2>Les membres <span class="count-pill">{{ users|length }}</span></h2><span class="collection-note">Accès réservé aux administrateurs</span></div>
+        <div class="members-table-wrapper">
+            <table class="members-table">
+                <caption class="visually-hidden">Liste des utilisateurs et de leurs rôles</caption>
+                <thead><tr><th scope="col">Membre</th><th scope="col">Adresse e-mail</th><th scope="col">Rôle actuel</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+                <tbody>
+                    {% for member in users %}
+                        {% set admin = 'ROLE_ADMIN' in member.roles or 'ROLE_SUPER_ADMIN' in member.roles %}
+                        <tr>
+                            <th scope="row"><span class="member-identity"><span class="account-avatar" aria-hidden="true">{{ member.firstName|first|upper }}{{ member.lastName|first|upper }}</span><span>{{ member.firstName }} {{ member.lastName }}{% if member.id == app.user.id %}<small>Votre compte</small>{% endif %}</span></span></th>
+                            <td>{{ member.email }}</td>
+                            <td><span class="member-role {{ admin ? 'member-role-admin' : '' }}">{{ admin ? 'Administrateur' : ('ROLE_OUVREUR' in member.roles ? 'Ouvreur' : ('ROLE_GRIMPEUR' in member.roles ? 'Grimpeur' : 'Utilisateur')) }}</span></td>
+                            <td><a class="subtle-link" href="{{ path('app_change_role_user', {id: member.id}) }}" aria-label="Modifier le rôle de {{ member.firstName }} {{ member.lastName }}">Modifier <span aria-hidden="true">↗</span></a></td>
+                        </tr>
+                    {% else %}<tr><td colspan="4">Aucun utilisateur.</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}

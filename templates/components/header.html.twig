@@ -1,0 +1,28 @@
+﻿<header class="site-header">
+    <div class="site-container header-content">
+        <a class="brand" href="{{ path('app_home') }}" aria-label="La Réglette — Accueil">LA RÉGLETTE<span>.</span></a>
+        <nav class="header-nav" aria-label="Navigation principale">
+            <a href="{{ path('app_home') }}" {% if app.request.attributes.get('_route') == 'app_home' %}aria-current="page"{% endif %}>Accueil</a>
+                <a href="{{ path('app_sector') }}">Secteurs</a>
+                <a href="{{ path('app_boulder') }}">Blocs</a>
+            {% if app.user %}
+                {% if is_granted('ROLE_GRIMPEUR') %}
+                    <a href="{{ path('app_ascent_personnal') }}" {% if app.request.attributes.get('_route') starts with 'app_ascent' %}aria-current="page"{% endif %}>Mes ascensions</a>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_change_role') }}" {% if app.request.attributes.get('_route') starts with 'app_change_role' %}aria-current="page"{% endif %}>Administration</a>
+                {% endif %}
+                <a href="{{ path('app_profil') }}" {% if app.request.attributes.get('_route') == 'app_profil' %}aria-current="page"{% endif %}>Mon profil</a>
+            {% endif %}
+        </nav>
+        <div class="header-account">
+            {% if app.user %}
+                <span class="account-identity"><span class="account-avatar" aria-hidden="true">{{ app.user.firstName|first|upper }}{{ app.user.lastName|first|upper }}</span><span><small>Connecté en tant que</small><strong class="account-name">{{ app.user.firstName }}.{{ app.user.lastName }}</strong></span></span>
+                <a class="logout-link" href="{{ logout_path() }}">Se déconnecter</a>
+            {% else %}
+                <a href="{{ path('app_login') }}">Connexion</a>
+                <a class="button-link" href="{{ path('app_register') }}">S'inscrire <span aria-hidden="true">↗</span></a>
+            {% endif %}
+        </div>
+    </div>
+</header>

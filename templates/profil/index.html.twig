@@ -1,0 +1,76 @@
+﻿{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil · La Réglette{% endblock %}
+
+{% block body %}
+    {% set passwordActive = passwordForm.vars.submitted %}
+    <main class="site-container home-spirit" aria-labelledby="profile-title" data-controller="profile" data-profile-delete-invalid-value="{{ deleteForm.vars.submitted ? 'true' : 'false' }}">
+        <p class="eyebrow">Votre espace personnel</p>
+        <h1 id="profile-title">Bonjour {{ user.firstName }}.</h1>
+        <p class="auth-description">Retrouvez les informations de votre compte La Réglette.</p>
+        {% for message in app.flashes('success') %}<div class="flash-success" role="status">{{ message }}</div>{% endfor %}
+        <div class="profile-sections">
+            <div class="profile-switch" role="tablist" aria-label="Paramètres du compte" data-action="keydown->profile#navigate">
+                <button type="button" id="personal-tab" role="tab" aria-controls="personal-panel" aria-selected="{{ passwordActive ? 'false' : 'true' }}" tabindex="{{ passwordActive ? '-1' : '0' }}" data-profile-target="tab" data-action="click->profile#select">Informations personnelles</button>
+                <button type="button" id="password-tab" role="tab" aria-controls="password-panel" aria-selected="{{ passwordActive ? 'true' : 'false' }}" tabindex="{{ passwordActive ? '0' : '-1' }}" data-profile-target="tab" data-action="click->profile#select">Mot de passe</button>
+            </div>
+            <section id="personal-panel" class="spirit-card" role="tabpanel" aria-labelledby="personal-tab" tabindex="0" data-profile-target="panel" {% if passwordActive %}hidden{% endif %}>
+                <h2 id="personal-title">Informations personnelles</h2>
+                <p>Une nouvelle adresse e-mail devra être confirmée. Vous serez invité à vous reconnecter après sa modification.</p>
+                {{ form_start(profileForm, {attr: {class: 'auth-form'}}) }}
+                {{ form_errors(profileForm) }}
+                {{ form_row(profileForm.firstName) }}
+                {{ form_row(profileForm.lastName) }}
+                {{ form_row(profileForm.email) }}
+                <button type="submit">Enregistrer mes informations</button>
+                {{ form_end(profileForm) }}
+            </section>
+            <section id="password-panel" class="spirit-card" role="tabpanel" aria-labelledby="password-tab" tabindex="0" data-profile-target="panel" {% if not passwordActive %}hidden{% endif %}>
+                <h2 id="password-title">Mot de passe</h2>
+                <p>Choisissez un mot de passe d'au moins 8 caractères. Vous devrez ensuite vous reconnecter.</p>
+                {{ form_start(passwordForm, {attr: {class: 'auth-form'}}) }}
+                {{ form_errors(passwordForm) }}
+                {{ form_row(passwordForm.currentPassword) }}
+                {{ form_row(passwordForm.newPassword.first) }}
+                {{ form_row(passwordForm.newPassword.second) }}
+                <button type="submit">Modifier mon mot de passe</button>
+                {{ form_end(passwordForm) }}
+            </section>
+            <div class="profile-delete-prompt"><p>Vous souhaitez quitter La Réglette ?</p><button type="button" class="profile-delete-trigger" data-profile-target="deleteTrigger" data-action="click->profile#openDelete">Supprimer mon compte</button></div>
+            <dialog class="profile-dialog profile-danger" aria-labelledby="delete-title" aria-describedby="delete-description" data-profile-target="dialog" data-action="close->profile#restoreFocus">
+                <h2 id="delete-title">Supprimer mon compte</h2>
+                <p id="delete-description">Cette action est définitive. Votre compte et vos ascensions seront supprimés. Les blocs que vous avez ouverts resteront disponibles sans être associés à votre compte.</p>
+                {{ form_start(deleteForm, {attr: {class: 'auth-form'}}) }}
+                {{ form_errors(deleteForm) }}
+                {{ form_row(deleteForm.currentPassword) }}
+                {{ form_row(deleteForm.confirm) }}
+                <div class="profile-dialog-actions"><button type="button" class="profile-cancel" autofocus data-action="click->profile#closeDelete">Annuler</button><button type="submit">Supprimer définitivement mon compte</button></div>
+                {{ form_end(deleteForm) }}
+            </dialog>
+        </div>
+        {% if is_granted('ROLE_OUVREUR') %}
+            <section class="opened-boulders" aria-labelledby="opened-boulders-title">
+                <div class="collection-heading"><h2 id="opened-boulders-title">Mes blocs ouverts <span class="count-pill">{{ openedBoulders|length }}</span></h2></div>
+                <p class="auth-description">Vos lignes, leurs réussites et les avis des grimpeurs. Les blocs démontés restent dans votre historique.</p>
+                <div class="climbing-grid">
+                    {% for boulder in openedBoulders %}
+                        <article class="climbing-card opener-block">
+                            <div class="climbing-card-body">
+                                <div class="card-meta">{{ boulder.sector.name }} <span class="member-role">{{ boulder.available ? 'En place' : 'Indisponible' }}</span></div>
+                                <h3><a href="{{ path('app_boulder_show', {id: boulder.id}) }}">{{ boulder.name }}</a></h3>
+                                <p class="card-meta">{{ boulder.color }} · Cotation {{ boulder.gradeLabel }}</p>
+                                <dl class="opener-block-statistics">
+                                    <div><dt>Réussites</dt><dd>{{ boulder.successCount }}</dd></div>
+                                    <div><dt>Note moyenne</dt><dd>{{ boulder.averageRating is not null ? boulder.averageRating|number_format(1, ',') ~ '/5' : 'Aucune note' }}</dd></div>
+                                </dl>
+                                <a class="card-link" href="{{ path('app_boulder_show', {id: boulder.id}) }}">Voir le bloc <span aria-hidden="true">↗</span></a>
+                            </div>
+                        </article>
+                    {% else %}
+                        <div class="empty-state"><h2>Votre prochaine ligne vous attend.</h2><p>Vous n’avez pas encore ouvert de bloc.</p><a class="button-link" href="{{ path('app_sector') }}">Explorer les secteurs</a></div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}

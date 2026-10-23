@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}Gérer un secteur · La Réglette{% endblock %}
+{% block body %}
+    <main class="site-container climbing-page">
+        <nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="{{ path('app_sector') }}">Secteurs</a><span>/</span><span>{{ sector.id ? 'Modification' : 'Nouveau secteur' }}</span></nav>
+        <div class="page-heading"><div><p class="eyebrow">La salle évolue</p><h1>{{ sector.id ? 'Modifier le secteur' : 'Créer un secteur' }}<span>.</span></h1><p class="page-description">Un espace de plus pour de nouvelles lignes.</p></div></div>
+        <section class="editor-panel">
+            <div class="editor-intro"><span class="step-label">01 / LE SECTEUR</span><h2>Donnez-lui un nom.</h2><p>Un nom simple pour permettre aux grimpeurs de se repérer dans la salle.</p></div>
+            {{ form_start(form, {attr: {class: 'climbing-form'}}) }}
+            {{ form_errors(form) }}{{ form_row(form.name, {row_attr: {class: 'form-field'}, attr: {placeholder: 'Ex. La Dalle'}}) }}
+            <div class="form-actions"><a class="subtle-link" href="{{ path('app_sector') }}">Annuler</a>{{ form_widget(form.submit) }}</div>
+            {{ form_end(form) }}
+        </section>
+    </main>
+{% endblock %}
