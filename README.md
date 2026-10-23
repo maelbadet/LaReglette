@@ -3,8 +3,10 @@
 Symfony 8.1 · PHP 8.4 minimum · MySQL (`pdo_mysql` et `intl` activés).
 
 ## Lancer en local
+### Première étape
+Copier coller le .env.dev en .env (toutes les valeurs sont dedans c'est un repo de test donc pas de production).
 
-Configurer `DATABASE_URL` dans `.env.local`, puis :
+puis ensuite : 
 
 ```powershell
 composer install
